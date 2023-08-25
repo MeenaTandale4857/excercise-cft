@@ -11,30 +11,29 @@ Resources:
       Code:
         ZipFile: |
           import json
-		import json
-            import boto3
-            import logging
-            logger = logging.getLogger()
+          import boto3
+          import logging
+          logger = logging.getLogger()
 
-		def lambda_handler(event, context):
-    			client=boto3.client('ssm')
-    			client1=boto3.client('s3')
-    			try:
-        			response = client.get_parameter(
-        			Name='example-parameter',
-        			WithDecryption=True|False
-        			)
-        			print(response)
-        			param = response['Parameter']
-        			res = json.loads(param)
-        			logger.info("retrieved parameter 				value")
-       
-        			response1=client1.put_object(
-            		Body='res',
-            		Bucket='examples3bucket',
-            		Key='res')
-        			print(response1)
-        			logger.info("uploaded s3 bucket")
-       
-    			except Exception as e:
-            		logger.error("Other issues in 				boto")
+	  def lambda_handler(event, context):
+		client=boto3.client('ssm')
+		client1=boto3.client('s3')
+		try:
+			response = client.get_parameter(
+			Name='example-parameter',
+			WithDecryption=True|False
+			)
+			print(response)
+			param = response['Parameter']
+			res = json.loads(param)
+			logger.info("retrieved parameter value")
+
+			response1=client1.put_object(
+		Body='res',
+		Bucket='examples3bucket',
+		Key='res')
+			print(response1)
+			logger.info("uploaded s3 bucket")
+
+		except Exception as e:
+		logger.error("Other issues in boto")
